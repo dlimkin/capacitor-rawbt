@@ -22,20 +22,7 @@ Sync native files
 npx cap sync
 ```
 
-## Register the plugin
-
-In your app's `MainActivity.kt`, register the plugin:
-
-```kotlin
-import com.rawbt.plugin.RawBtPlugin
-
-class MainActivity : BridgeActivity() {
-  override fun registerPlugins(bridge: Bridge) {
-    super.registerPlugins(bridge)
-    bridge.registerPlugin(RawBtPlugin::class.java)
-  }
-}
-```
+> The plugin is auto-discovered by Capacitor — no changes to `MainActivity.kt` are needed.
 
 ## Usage
 
