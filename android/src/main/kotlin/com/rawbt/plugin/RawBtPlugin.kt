@@ -11,6 +11,23 @@ class RawBtPlugin : Plugin() {
     private val implementation = RawBt()
 
     @PluginMethod
+    fun print(call: PluginCall) {
+        val text = call.getString("text")
+        if (text.isNullOrEmpty()) {
+            call.reject("'text' parameter is required and must not be empty")
+            return
+        }
+
+        try {
+            val intent = implementation.buildPrintTextIntent(text)
+            activity.startActivity(intent)
+            call.resolve()
+        } catch (e: Exception) {
+            call.reject("Failed to launch RawBT: ${e.message}", e)
+        }
+    }
+
+    @PluginMethod
     fun printBase64(call: PluginCall) {
         val base64str = call.getString("base64")
         if (base64str.isNullOrEmpty()) {
@@ -19,7 +36,7 @@ class RawBtPlugin : Plugin() {
         }
 
         try {
-            val intent = implementation.buildPrintIntent(base64str)
+            val intent = implementation.buildPrintBase64Intent(base64str)
             activity.startActivity(intent)
             call.resolve()
         } catch (e: Exception) {
