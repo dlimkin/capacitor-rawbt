@@ -11,17 +11,15 @@ class RawBtPlugin : Plugin() {
     private val implementation = RawBt()
 
     @PluginMethod
-    fun print(call: PluginCall) {
-        val text = call.getString("text")
-        if (text == null) {
-            call.reject("'text' parameter is required")
+    fun printBase64(call: PluginCall) {
+        val base64str = call.getString("base64")
+        if (base64str.isNullOrEmpty()) {
+            call.reject("'base64' parameter is required and must not be empty")
             return
         }
-        val title = call.getString("title") ?: "Print via RawBT"
-        val mimetype = call.getString("mimetype") ?: "text/plain"
 
         try {
-            val intent = implementation.buildPrintIntent(text, title, mimetype)
+            val intent = implementation.buildPrintIntent(base64str)
             activity.startActivity(intent)
             call.resolve()
         } catch (e: Exception) {
@@ -29,4 +27,3 @@ class RawBtPlugin : Plugin() {
         }
     }
 }
-

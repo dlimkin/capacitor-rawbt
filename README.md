@@ -8,7 +8,7 @@ To use npm
 
 ```bash
 npm install capacitor-rawbt
-````
+```
 
 To use yarn
 
@@ -29,20 +29,19 @@ npx cap sync
 ```typescript
 import { RawBt } from 'capacitor-rawbt';
 
-await RawBt.print({
-  text: 'Hello, thermal printer!',
-  title: 'Print Receipt',    // optional
-  mimetype: 'text/plain',    // optional, default: 'text/plain'
-});
+// Encode your content to Base64 before sending
+const base64data = btoa('Hello, thermal printer!');
+
+await RawBt.printBase64({ base64: base64data });
 ```
 
-> **Note:** This plugin is Android-only. Calling `print()` on web will throw an error.
+> **Note:** This plugin is Android-only. Calling `printBase64()` on web will throw an error.
 
 ## API
 
 <docgen-index>
 
-* [`print(...)`](#print)
+* [`printBase64(...)`](#printbase64)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -50,18 +49,19 @@ await RawBt.print({
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### print(...)
+### printBase64(...)
 
 ```typescript
-print(options: PrintOptions) => Promise<void>
+printBase64(options: PrintBase64Options) => Promise<void>
 ```
 
-Send text to the RawBT thermal printer app via Android Intent.
+Send base64-encoded data to the RawBT thermal printer app via Android Intent
+using the `rawbt:base64,{data}` URI scheme.
 On web, throws an error (not supported).
 
-| Param         | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| **`options`** | <code><a href="#printoptions">PrintOptions</a></code> |
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#printbase64options">PrintBase64Options</a></code> |
 
 **Since:** 1.0.0
 
@@ -71,14 +71,12 @@ On web, throws an error (not supported).
 ### Interfaces
 
 
-#### PrintOptions
+#### PrintBase64Options
 
-Options for the print method.
+Options for the printBase64 method.
 
-| Prop           | Type                | Description                                                            | Since |
-| -------------- | ------------------- | ---------------------------------------------------------------------- | ----- |
-| **`text`**     | <code>string</code> | The text content to print.                                             | 1.0.0 |
-| **`title`**    | <code>string</code> | Title shown in the app chooser dialog (Android only).                  | 1.0.0 |
-| **`mimetype`** | <code>string</code> | MIME type of the content, e.g. "text/plain". Defaults to "text/plain". | 1.0.0 |
+| Prop         | Type                | Description                                         | Since |
+| ------------ | ------------------- | --------------------------------------------------- | ----- |
+| **`base64`** | <code>string</code> | Base64-encoded content to send to the RawBT app.   | 1.0.0 |
 
 </docgen-api>
